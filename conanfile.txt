@@ -1,0 +1,9 @@
+[requires]
+fmt/8.1.1
+glm/0.9.9.6
+glfw/3.3.8
+imgui/1.90.1
+
+[generators]
+CMakeDeps
+CMakeToolchain
