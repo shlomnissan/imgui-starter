@@ -73,8 +73,6 @@ auto Window::Start(const std::function<void(const double delta)> &program) -> vo
 
         program(delta);
 
-        ImGui::ShowDemoWindow();
-
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

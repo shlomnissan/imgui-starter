@@ -1,7 +1,10 @@
 // Copyright 2024 Betamark Pty Ltd. All rights reserved.
 // Author: Shlomi Nissan (shlomi@betamark.com)
 
-#include <array>
+#include <vector>
+
+#include <imgui.h>
+#include <glm/glm.hpp>
 
 #include "core/mesh.h"
 #include "core/shader.h"
@@ -19,11 +22,32 @@ auto main() -> int {
     }};
     
     glEnable(GL_DEPTH_TEST);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    auto triangle = Mesh({
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.0f,  0.5f, 0.0f
+    });
+
+    auto color = std::vector<float> {1.0f, 1.0f, 1.0f, 1.0f};
 
     window.Start([&](const double delta){
-        glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
+        glClearColor(0.17f, 0.16f, 0.29f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        ImGui::Begin("Color", nullptr,
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoTitleBar
+        );
+
+        ImGui::SetWindowSize({250, 35});
+        ImGui::SetWindowPos({20, 20});
+        ImGui::ColorEdit3("Edit Color", color.data());
+        ImGui::End();
+
+        triangle.Draw(shader);
     });
 
     return 0;
