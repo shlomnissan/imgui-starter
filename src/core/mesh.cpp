@@ -47,7 +47,10 @@ auto Mesh::ConfigureVertices(const std::vector<float>& vertex_data) -> void {
     );
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, STRIDE(0), BUFFER_OFFSET(0));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, STRIDE(6), BUFFER_OFFSET(0));
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, STRIDE(6), BUFFER_OFFSET(3));
 }
 
 auto Mesh::ConfigureIndices(const std::vector<unsigned int>& index_data) -> void {

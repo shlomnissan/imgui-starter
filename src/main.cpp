@@ -5,6 +5,7 @@
 
 #include <imgui.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "core/mesh.h"
 #include "core/shader.h"
@@ -23,15 +24,22 @@ auto main() -> int {
     
     glEnable(GL_DEPTH_TEST);
 
-    auto triangle = Mesh({
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
-    });
+    auto color_0 = std::vector<float> {1.0f, 0.0f, 0.0f, 1.0f};
+    auto color_1 = std::vector<float> {0.0f, 1.0f, 0.0f, 1.0f};
+    auto color_2 = std::vector<float> {0.0f, 0.0f, 1.0f, 1.0f};
 
-    auto color = std::vector<float> {1.0f, 1.0f, 1.0f, 1.0f};
+    auto ratio = static_cast<float>(800 / 600);
+
+    shader.Use();
+    shader.SetMat4("Projection", glm::perspective(45.0f, ratio, 0.1f, 100.0f));
 
     window.Start([&](const double delta){
+        auto triangle = Mesh({
+            -0.5f, -0.5f, -2.0f, color_0[0], color_0[1], color_0[2],
+            0.0f,  0.5f, -2.0f, color_1[0], color_1[1], color_1[2],
+            0.5f, -0.5f, -2.0f, color_2[0], color_2[1], color_2[2],
+        });
+
         glClearColor(0.17f, 0.16f, 0.29f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -42,9 +50,11 @@ auto main() -> int {
             ImGuiWindowFlags_NoTitleBar
         );
 
-        ImGui::SetWindowSize({250, 35});
+        ImGui::SetWindowSize({220, 82});
         ImGui::SetWindowPos({20, 20});
-        ImGui::ColorEdit3("Edit Color", color.data());
+        ImGui::ColorEdit3("Vertex 0", color_0.data());
+        ImGui::ColorEdit3("Vertex 1", color_1.data());
+        ImGui::ColorEdit3("Vertex 2", color_2.data());
         ImGui::End();
 
         triangle.Draw(shader);
