@@ -15,7 +15,9 @@
 #include "shaders/headers/fragment.h"
 
 auto main() -> int {
-    auto window = Window {800, 600, "ImGui Starter"};
+    const auto width = 1024;
+    const auto height = 768;
+    auto window = Window {width, height, "ImGui starter project"};
 
     auto shader = Shader {{
         {ShaderType::kVertexShader, _SHADER_vertex},
@@ -24,14 +26,19 @@ auto main() -> int {
     
     glEnable(GL_DEPTH_TEST);
 
+    auto updateProjection = [&shader](int width, int height) {
+        auto ratio = static_cast<float>(width) / static_cast<float>(height);
+        shader.SetMat4("Projection", glm::perspective(45.0f, ratio, 0.1f, 100.0f));
+    };
+
+    updateProjection(width, height);
+    window.Resize([&updateProjection](const int width, const int height){
+        updateProjection(width, height);
+    });
+
     auto color_0 = std::vector<float> {1.0f, 0.0f, 0.0f, 1.0f};
     auto color_1 = std::vector<float> {0.0f, 1.0f, 0.0f, 1.0f};
     auto color_2 = std::vector<float> {0.0f, 0.0f, 1.0f, 1.0f};
-
-    auto ratio = static_cast<float>(800 / 600);
-
-    shader.Use();
-    shader.SetMat4("Projection", glm::perspective(45.0f, ratio, 0.1f, 100.0f));
 
     window.Start([&](const double delta){
         auto triangle = Mesh({
