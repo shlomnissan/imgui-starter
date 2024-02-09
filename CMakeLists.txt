@@ -22,6 +22,8 @@ find_package(glm REQUIRED)
 find_package(imgui REQUIRED)
 
 set(CORE_SOURCES
+    src/core/framebuffer.h
+    src/core/framebuffer.cpp
     src/core/mesh.cpp
     src/core/mesh.h
     src/core/shader.cpp

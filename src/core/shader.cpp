@@ -38,7 +38,7 @@ auto Shader::GetShaderType(ShaderType type) const -> unsigned int {
             return GL_FRAGMENT_SHADER;
             break;
         default:
-            throw ShaderError("Unsupported Shader Type");
+            throw ShaderError {"Unsupported Shader Type"};
     }
 }
 

@@ -35,6 +35,7 @@ Window::Window(int width, int height, std::string_view title) {
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     window_ = glfwCreateWindow(width, height, title.data(), nullptr, nullptr);
 
